@@ -7,6 +7,11 @@ use_frameworks!
 pod 'WCCircularFloatingActionMenu'
 ```
 
+## Requirements
+
+- iOS 8.0+
+- Swift 2.0
+
 ## Usage
 
 1. Add a UIButton in the storyboards.
