@@ -198,7 +198,6 @@ public class WCCircularFloatingActionMenu: UIButton {
 }
 
 extension CGFloat {
-    
     func toRadians() -> CGFloat {
         return (self / 180.0) * CGFloat(M_PI)
     }
