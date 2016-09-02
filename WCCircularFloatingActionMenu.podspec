@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
   spec.name = 'WCCircularFloatingActionMenu'
   spec.module_name = 'WCCircularFloatingActionMenu'
-  spec.version = '0.1.8'
+  spec.version = '0.1.9'
   spec.license = 'Apache'
   spec.summary = 'A animated, customization floating action menu.'
   spec.homepage = 'https://github.com/whitecloakph/WCCircularFloatingActionMenu'
