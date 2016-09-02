@@ -9,22 +9,26 @@
 import UIKit
 
 public protocol WCCircularFloatingActionMenuDataSource {
-    func floatingActionMenu(menu:WCCircularFloatingActionMenu, buttonForItem item:Int) -> UIButton
-    func numberOfItemsForFloatingActionMenu(menu:WCCircularFloatingActionMenu) -> Int
+    func floatingActionMenu(menu: WCCircularFloatingActionMenu, buttonForItem item: Int) -> UIButton
+    func numberOfItemsForFloatingActionMenu(menu: WCCircularFloatingActionMenu) -> Int
 }
 
 public protocol WCCircularFloatingActionMenuDelegate {
-    func floatingActionMenu(menu:WCCircularFloatingActionMenu, didSelectItem item:Int)
+    func floatingActionMenu(menu: WCCircularFloatingActionMenu, didSelectItem item: Int)
 }
 
 @objc(WCCircularFloatingActionMenu)
 public class WCCircularFloatingActionMenu: UIButton {
+    
     public var delegate: WCCircularFloatingActionMenuDelegate?
     public var dataSource: WCCircularFloatingActionMenuDataSource?
-    @IBInspectable public var radius:CGFloat = 100
-    @IBInspectable public var animationDuration:NSTimeInterval = 0.2
-    @IBInspectable public var blurColor:UIColor = UIColor.grayColor().colorWithAlphaComponent(0.5)
-    @IBInspectable public var startAngleDegrees:CGFloat {
+    
+    @IBInspectable public var radius: CGFloat = 100
+    @IBInspectable public var animationDuration: NSTimeInterval = 0.2
+    
+    @IBInspectable public var blurColor: UIColor = UIColor.blackColor().colorWithAlphaComponent(0.5)
+    
+    @IBInspectable public var startAngleDegrees: CGFloat {
         set {
            self.startAngle = newValue.normalizeDegrees().toRadians()
         }
@@ -32,7 +36,7 @@ public class WCCircularFloatingActionMenu: UIButton {
             return startAngle.toDegrees()
         }
     }
-    @IBInspectable public var endAngleDegrees:CGFloat {
+    @IBInspectable public var endAngleDegrees: CGFloat {
         set {
             self.endAngle = newValue.normalizeDegrees().toRadians()
         }
@@ -40,7 +44,7 @@ public class WCCircularFloatingActionMenu: UIButton {
             return endAngle.toDegrees()
         }
     }
-    @IBInspectable public var rotationStartAngleDegrees:CGFloat {
+    @IBInspectable public var rotationStartAngleDegrees: CGFloat {
         set {
             self.rotationStartAngle = newValue.normalizeDegrees().toRadians()
         }
@@ -49,7 +53,7 @@ public class WCCircularFloatingActionMenu: UIButton {
         }
     }
     
-    @IBInspectable public var rotationEndAngleDegrees:CGFloat {
+    @IBInspectable public var rotationEndAngleDegrees: CGFloat {
         set {
             self.rotationEndAngle = newValue.normalizeDegrees().toRadians()
         }
@@ -75,6 +79,7 @@ public class WCCircularFloatingActionMenu: UIButton {
     private var tapGestureRecognizer:UITapGestureRecognizer!
     private var buttons:[UIButton]!
     private var screenView:UIView!
+    
     private var mainWindow:UIWindow? {
         return UIApplication.sharedApplication().keyWindow
     }
@@ -90,9 +95,15 @@ public class WCCircularFloatingActionMenu: UIButton {
     }
     
     private func setup() {
-        tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(WCCircularFloatingActionMenu.didTapScreen(_:)))
-        self.addTarget(self, action: #selector(WCCircularFloatingActionMenu.toggleMenu), forControlEvents: .TouchUpInside)
+        tapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                      action: #selector(WCCircularFloatingActionMenu.didTapScreen(_:)))
+        
+        self.addTarget(self,
+                       action: #selector(WCCircularFloatingActionMenu.toggleMenu),
+                       forControlEvents: .TouchUpInside)
+        
         self.screenView = UIView(frame: UIScreen.mainScreen().bounds)
+        
         self.screenView.backgroundColor = blurColor
         self.screenView.addGestureRecognizer(tapGestureRecognizer)
     }
@@ -136,6 +147,7 @@ public class WCCircularFloatingActionMenu: UIButton {
         var angle = startAngle
         
         mainWindow?.addSubview(screenView)
+        
         for button in buttons {
             button.center = menuCenter
             button.transform = CGAffineTransformMakeRotation(self.rotationStartAngle)
@@ -145,10 +157,16 @@ public class WCCircularFloatingActionMenu: UIButton {
             for button in self.buttons {
                 let x = menuCenter.x + self.radius * cos(angle)
                 let y = menuCenter.y + self.radius * sin(angle)
+                
                 button.center = CGPointMake(x, y)
                 button.transform = CGAffineTransformMakeRotation(self.rotationEndAngle)
-                button.addTarget(self, action: #selector(WCCircularFloatingActionMenu.buttonTapped(_:)), forControlEvents: .TouchUpInside)
+                
+                button.addTarget(self,
+                                 action: #selector(WCCircularFloatingActionMenu.buttonTapped(_:)),
+                                 forControlEvents: .TouchUpInside)
+                
                 self.screenView.addSubview(button)
+                
                 angle += deltaAngle
             }
         }
@@ -159,6 +177,7 @@ public class WCCircularFloatingActionMenu: UIButton {
         guard let menuFrame = mainWindow?.convertRect(self.frame, toView: screenView) else {
             return
         }
+        
         let menuCenter = CGPoint(x: CGRectGetMidX(menuFrame), y: CGRectGetMidY(menuFrame))
         
         UIView.animateWithDuration(animationDuration, animations: {
@@ -166,7 +185,7 @@ public class WCCircularFloatingActionMenu: UIButton {
                 button.center = menuCenter
                 button.transform = CGAffineTransformMakeRotation(self.rotationStartAngle)
             }
-        }) { (finished) in
+        }) { _ in
             self.screenView.removeFromSuperview()
             self.buttons = []
         }
@@ -175,13 +194,17 @@ public class WCCircularFloatingActionMenu: UIButton {
 }
 
 extension CGFloat {
+    
     func toRadians() -> CGFloat {
         return (self / 180.0) * CGFloat(M_PI)
     }
+    
     func toDegrees() -> CGFloat {
         return (self * 180.0) / CGFloat(M_PI)
     }
+    
     func normalizeDegrees() -> CGFloat {
         return self % 360
     }
+    
 }
