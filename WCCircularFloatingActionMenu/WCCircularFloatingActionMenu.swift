@@ -209,5 +209,4 @@ extension CGFloat {
     func normalizeDegrees() -> CGFloat {
         return self % 360
     }
-    
 }
