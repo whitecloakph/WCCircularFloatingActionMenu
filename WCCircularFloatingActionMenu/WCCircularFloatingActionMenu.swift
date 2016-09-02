@@ -177,11 +177,9 @@ public class WCCircularFloatingActionMenu: UIButton {
     }
     
     private func removeButtons() {
-        guard let menuFrame = mainWindow?.convertRect(self.frame, toView: screenView) else {
+        guard let windowCenter = self.superview?.convertPoint(self.center, toView: nil), menuCenter = mainWindow?.convertPoint(windowCenter, toView: screenView) else {
             return
         }
-        
-        let menuCenter = CGPoint(x: CGRectGetMidX(menuFrame), y: CGRectGetMidY(menuFrame))
         
         UIView.animateWithDuration(animationDuration, animations: {
             for button in self.buttons {
