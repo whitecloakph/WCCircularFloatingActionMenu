@@ -141,11 +141,10 @@ public class WCCircularFloatingActionMenu: UIButton {
     }
     
     private func addButtons() {
-        guard let dataSource = dataSource, menuFrame = mainWindow?.convertRect(self.frame, toView: screenView) else {
+        guard let dataSource = dataSource, menuCenter = mainWindow?.convertPoint(self.center, fromWindow: nil) else {
             return
         }
         
-        let menuCenter = CGPoint(x: CGRectGetMidX(menuFrame), y: CGRectGetMidY(menuFrame))
         let count = dataSource.numberOfItemsForFloatingActionMenu(self)
         let deltaAngle = abs(startAngle-endAngle) / CGFloat(count - 1)
         var angle = startAngle
