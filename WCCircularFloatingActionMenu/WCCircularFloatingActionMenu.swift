@@ -141,7 +141,7 @@ public class WCCircularFloatingActionMenu: UIButton {
     }
     
     private func addButtons() {
-        guard let dataSource = dataSource, windowCenter = mainWindow?.convertPoint(self.center, fromWindow: nil), menuCenter = mainWindow?.convertPoint(windowCenter, toView: screenView) else {
+        guard let dataSource = dataSource, windowCenter = self.superview?.convertPoint(self.center, toView: nil), menuCenter = mainWindow?.convertPoint(windowCenter, toView: screenView) else {
             return
         }
         
