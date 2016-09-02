@@ -26,7 +26,11 @@ public class WCCircularFloatingActionMenu: UIButton {
     @IBInspectable public var radius: CGFloat = 100
     @IBInspectable public var animationDuration: NSTimeInterval = 0.2
     
-    @IBInspectable public var blurColor: UIColor = UIColor.blackColor().colorWithAlphaComponent(0.5)
+    @IBInspectable public var blurColor: UIColor = UIColor.blackColor().colorWithAlphaComponent(0.5) {
+        didSet {
+            screenView.backgroundColor = blurColor
+        }
+    }
     
     @IBInspectable public var startAngleDegrees: CGFloat {
         set {
