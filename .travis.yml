@@ -9,5 +9,8 @@ cache: cocoapods
 before_install:
 - gem install cocoapods # Since Travis is not always on latest version
 # - pod install --project-directory=Example
+branches:
+  only:
+    - master
 script:
 - pod lib lint
