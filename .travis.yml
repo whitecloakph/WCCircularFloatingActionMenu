@@ -8,9 +8,7 @@ osx_image: xcode7.3
 # - pod lib lint
 deploy:
   provider: script
-  script:
-  - gem install cocoapods
-  - pod trunk push
+  script: scripts/push.sh
   skip_cleanup: true
   on:
     tags: true
