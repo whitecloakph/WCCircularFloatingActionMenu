@@ -2,4 +2,4 @@
 
 source ~/.rvm/scripts/rvm
 rvm use default
-pod trunk push WCCircularFloatingActionMenu.podspec
+pod trunk push ~/WCCircularFloatingActionMenu.podspec
