@@ -7,10 +7,10 @@ before_install:
 script:
   # - set -o pipefail && xcodebuild -project WCCircularFloatingActionMenu.xcodeproj -scheme WCCircularFloatingActionMenu -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO test | xcpretty -c
   # - pod lib lint
-deploy:
-  provider: script
-  script: 
-  - pod trunk push
-  on:
-    branch: master
-    tags: true
+  - if [[ "$TRAVIS_TAG" != "" ]]; then pod trunk push; fi;
+# deploy:
+#   provider: script
+#   script: sh scripts/push.sh
+#   on:
+#     branch: master
+#     tags: true
