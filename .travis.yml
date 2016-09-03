@@ -8,6 +8,9 @@ osx_image: xcode7.3
 # - pod lib lint
 deploy:
   provider: script
-  script: "./scripts/push.sh"
+  script:
+  - echo 'Pushing to pod trunk...'
+  - pod trunk push --verbose
+  skip_cleanup: true
   on:
     tags: true
