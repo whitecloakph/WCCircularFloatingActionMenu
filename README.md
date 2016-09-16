@@ -28,6 +28,7 @@ pod 'WCCircularFloatingActionMenu'
 
 1. A full demo is included in the source code
 2. We're pretty much open to any suggestions
+3. Almost everything is configurable, including the radius, start and end angles, blur and animation times.
 
 ## License
 
